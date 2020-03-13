@@ -4,32 +4,37 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using MyShop.Core.Models;
+using MyShop.Core.ViewModels;
 using MyShop.DataAccess.InMemory.Repositories;
 
 namespace MyShop.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        ProductRepository context;
+        ProductRepository productRepository;
+        ProductCategoryRepository categoryRepository;
 
         public ProductManagerController()
         {
-            context = new ProductRepository();
+            productRepository = new ProductRepository();
+            categoryRepository = new ProductCategoryRepository();
         }
 
         // GET: ProductManager
         [HttpGet]
         public ActionResult Index()
         {
-            List<Product> products = context.Collection().ToList();
+            List<Product> products = productRepository.Collection().ToList();
             return View(products);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
-            Product product = new Product();
-            return View(product);
+            ProductViewModel viewModel = new ProductViewModel();
+            viewModel.Product = new Product();
+            viewModel.ProductCategories = categoryRepository.Collection();
+            return View(viewModel);
         }
 
         [HttpPost]
@@ -39,27 +44,30 @@ namespace MyShop.WebUI.Controllers
             {
                 return View(product);
             }
-            context.Insert(product);
-            context.Commit();
+            productRepository.Insert(product);
+            productRepository.Commit();
             return RedirectToAction("Index");
         }
 
         [HttpGet]
         public ActionResult Edit(string Id)
         {
-            Product product = context.Find(Id);
+            Product product = productRepository.Find(Id);
 
             if (product == null)
             {
                 return HttpNotFound();
             }
-            return View(product);
+            ProductViewModel viewModel = new ProductViewModel();
+            viewModel.Product = product;
+            viewModel.ProductCategories = categoryRepository.Collection();
+            return View(viewModel);
         }
 
         [HttpPost]
         public ActionResult Edit(Product product, string Id)
         {
-            Product productToEdit = context.Find(Id);
+            Product productToEdit = productRepository.Find(Id);
 
             if (product == null)
             {
@@ -77,7 +85,7 @@ namespace MyShop.WebUI.Controllers
             productToEdit.Name = product.Name;
             productToEdit.Price = product.Price;
 
-            context.Commit();
+            productRepository.Commit();
 
             return RedirectToAction("Index");
         }
@@ -85,7 +93,7 @@ namespace MyShop.WebUI.Controllers
         [HttpGet]
         public ActionResult Delete(string Id)
         {
-            Product productToDelete = context.Find(Id);
+            Product productToDelete = productRepository.Find(Id);
 
             if (productToDelete == null)
             {
@@ -99,14 +107,14 @@ namespace MyShop.WebUI.Controllers
         [ActionName("Delete")]
         public ActionResult ConfirmDelete(string Id)
         {
-            Product productToDelete = context.Find(Id);
+            Product productToDelete = productRepository.Find(Id);
             if (productToDelete == null)
             {
                 return HttpNotFound();
             }
 
-            context.Delete(Id);
-            context.Commit();
+            productRepository.Delete(Id);
+            productRepository.Commit();
             return RedirectToAction("Index");
         }
 

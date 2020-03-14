@@ -1,19 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 using MyShop.Core.ViewModels;
-using MyShop.DataAccess.InMemory.Repositories;
 
 namespace MyShop.WebUI.Controllers
 {
     public class ProductManagerController : Controller
     {
-        IRepository<Product> productRepository;
-        IRepository<ProductCategory> categoryRepository;
+        private IRepository<Product> productRepository;
+        private IRepository<ProductCategory> categoryRepository;
+
+        public ProductManagerController()
+        {
+        }
 
         public ProductManagerController(IRepository<Product> productRepository, IRepository<ProductCategory> categoryRepository)
         {
@@ -92,9 +93,9 @@ namespace MyShop.WebUI.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(string Id)
+        public ActionResult Delete(string id)
         {
-            Product productToDelete = productRepository.Find(Id);
+            Product productToDelete = productRepository.Find(id);
 
             if (productToDelete == null)
             {
@@ -106,15 +107,15 @@ namespace MyShop.WebUI.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult ConfirmDelete(string Id)
+        public ActionResult ConfirmDelete(string id)
         {
-            Product productToDelete = productRepository.Find(Id);
+            Product productToDelete = productRepository.Find(id);
             if (productToDelete == null)
             {
                 return HttpNotFound();
             }
 
-            productRepository.Delete(Id);
+            productRepository.Delete(id);
             productRepository.Commit();
             return RedirectToAction("Index");
         }

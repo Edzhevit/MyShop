@@ -8,8 +8,8 @@ namespace MyShop.Core.Contracts
         void Commit();
         void Insert(T item);
         void Update(T item);
-        T Find(string Id);
+        T Find(string id);
         IQueryable<T> Collection();
-        void Delete(string Id);
+        void Delete(string id);
     }
 }

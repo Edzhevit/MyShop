@@ -9,9 +9,9 @@ namespace MyShop.DataAccess.InMemory.Repositories
 {
     public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
-        ObjectCache cache = MemoryCache.Default;
-        List<T> items;
-        string className;
+        private ObjectCache cache = MemoryCache.Default;
+        private List<T> items;
+        private string className;
 
         public InMemoryRepository()
         {
@@ -47,9 +47,9 @@ namespace MyShop.DataAccess.InMemory.Repositories
             }
         }
 
-        public T Find(string Id)
+        public T Find(string id)
         {
-            T item = items.Find(i => i.Id == Id);
+            T item = items.Find(i => i.Id == id);
 
             if (item != null)
             {
@@ -66,9 +66,9 @@ namespace MyShop.DataAccess.InMemory.Repositories
             return items.AsQueryable();
         }
 
-        public void Delete(string Id)
+        public void Delete(string id)
         {
-            T itemToDelete = items.Find(i => i.Id == Id);
+            T itemToDelete = items.Find(i => i.Id == id);
 
             if (itemToDelete != null)
             {

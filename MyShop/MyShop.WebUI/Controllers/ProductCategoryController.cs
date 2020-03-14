@@ -3,13 +3,16 @@ using System.Linq;
 using System.Web.Mvc;
 using MyShop.Core.Contracts;
 using MyShop.Core.Models;
-using MyShop.DataAccess.InMemory.Repositories;
 
 namespace MyShop.WebUI.Controllers
 {
     public class ProductCategoryController : Controller
     {
-        IRepository<ProductCategory> repository;
+        private IRepository<ProductCategory> repository;
+
+        public ProductCategoryController()
+        {
+        }
 
         public ProductCategoryController(IRepository<ProductCategory> repository)
         {
@@ -44,9 +47,9 @@ namespace MyShop.WebUI.Controllers
         }
 
         [HttpGet]
-        public ActionResult Edit(string Id)
+        public ActionResult Edit(string id)
         {
-            ProductCategory productCategory = repository.Find(Id);
+            ProductCategory productCategory = repository.Find(id);
 
             if (productCategory == null)
             {
@@ -56,9 +59,9 @@ namespace MyShop.WebUI.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(ProductCategory productCategory, string Id)
+        public ActionResult Edit(ProductCategory productCategory, string id)
         {
-            ProductCategory category = repository.Find(Id);
+            ProductCategory category = repository.Find(id);
 
             if (productCategory == null)
             {
@@ -78,9 +81,9 @@ namespace MyShop.WebUI.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete(string Id)
+        public ActionResult Delete(string id)
         {
-            ProductCategory category = repository.Find(Id);
+            ProductCategory category = repository.Find(id);
 
             if (category == null)
             {
@@ -92,15 +95,15 @@ namespace MyShop.WebUI.Controllers
 
         [HttpPost]
         [ActionName("Delete")]
-        public ActionResult ConfirmDelete(string Id)
+        public ActionResult ConfirmDelete(string id)
         {
-            ProductCategory category = repository.Find(Id);
+            ProductCategory category = repository.Find(id);
             if (category == null)
             {
                 return HttpNotFound();
             }
 
-            repository.Delete(Id);
+            repository.Delete(id);
             repository.Commit();
             return RedirectToAction("Index");
         }

@@ -8,11 +8,11 @@ namespace MyShop.WebUI.Controllers
 {
     public class ProductCategoryController : Controller
     {
-        ProductCategoryRepository repository;
+        InMemoryRepository<ProductCategory> repository;
 
         public ProductCategoryController()
         {
-            repository = new ProductCategoryRepository();
+            repository = new InMemoryRepository<ProductCategory>();
         }
 
         // GET: ProductCategoryManager

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 using MyShop.DataAccess.InMemory.Repositories;
 
@@ -8,11 +9,11 @@ namespace MyShop.WebUI.Controllers
 {
     public class ProductCategoryController : Controller
     {
-        InMemoryRepository<ProductCategory> repository;
+        IRepository<ProductCategory> repository;
 
-        public ProductCategoryController()
+        public ProductCategoryController(IRepository<ProductCategory> repository)
         {
-            repository = new InMemoryRepository<ProductCategory>();
+            this.repository = repository;
         }
 
         // GET: ProductCategoryManager

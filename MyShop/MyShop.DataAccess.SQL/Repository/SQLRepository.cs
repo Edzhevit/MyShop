@@ -1,5 +1,4 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Linq;
 using MyShop.Core.Contracts;
 using MyShop.Core.Models;
@@ -10,50 +9,50 @@ namespace MyShop.DataAccess.SQL.Repository
     public class SqlRepository<T> : IRepository<T> where T: BaseEntity
     {
 
-        internal DataContext context;
-        internal DbSet<T> dbSet;
+        internal DataContext Context;
+        internal DbSet<T> DbSet;
 
         public SqlRepository(DataContext context)
         {
-            this.context = context;
-            this.dbSet = context.Set<T>();
+            this.Context = context;
+            this.DbSet = context.Set<T>();
         }
 
         public void Commit()
         {
-            context.SaveChanges();
+            Context.SaveChanges();
         }
 
         public void Insert(T item)
         {
-            dbSet.Add(item);
+            DbSet.Add(item);
         }
 
         public void Update(T item)
         {
-            dbSet.Attach(item);
-            context.Entry(item).State = EntityState.Modified;
+            DbSet.Attach(item);
+            Context.Entry(item).State = EntityState.Modified;
         }
 
         public T Find(string id)
         {
-            return dbSet.Find(id);
+            return DbSet.Find(id);
         }
 
         public IQueryable<T> Collection()
         {
-            return dbSet;
+            return DbSet;
         }
 
         public void Delete(string id)
         {
             var item = Find(id);
-            if (context.Entry(item).State == EntityState.Detached)
+            if (Context.Entry(item).State == EntityState.Detached)
             {
-                dbSet.Attach(item);
+                DbSet.Attach(item);
             }
 
-            dbSet.Remove(item);
+            DbSet.Remove(item);
         }
     }
 }

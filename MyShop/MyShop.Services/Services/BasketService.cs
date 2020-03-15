@@ -15,10 +15,10 @@ namespace MyShop.Services.Services
 
         public const string BasketSessionName = "eCommerceBasket";
 
-        public BasketService(IRepository<Product> ProductRepository, IRepository<Basket> BasketRepository)
+        public BasketService(IRepository<Product> productRepository, IRepository<Basket> basketRepository)
         {
-            this.productRepository = ProductRepository;
-            this.basketRepository = BasketRepository;
+            this.productRepository = productRepository;
+            this.basketRepository = basketRepository;
         }
 
         private Basket GetBasket(HttpContextBase httpContext, bool createIfNull)
@@ -138,7 +138,7 @@ namespace MyShop.Services.Services
                     join p in productRepository.Collection() on item.ProductId equals p.Id
                     select item.Quantity * p.Price).Sum();
 
-                summaryModel.BasketCount = basketCount ?? 0;
+                summaryModel.BasketCount = (int) basketCount;
                 summaryModel.BasketTotal = basketTotal;
 
                 return summaryModel;

@@ -17,17 +17,17 @@ namespace MyShop.WebUI.Controllers
             this.productRepository = product;
             this.categoryRepository = category;
         }
-        public ActionResult Index(string Category=null)
+        public ActionResult Index(string category=null)
         {
             List<Product> products;
             List<ProductCategory> productCategories = categoryRepository.Collection().ToList();
-            if (Category == null)
+            if (category == null)
             {
                 products = productRepository.Collection().ToList();
             }
             else
             {
-                products = productRepository.Collection().Where(p => p.Category == Category).ToList();
+                products = productRepository.Collection().Where(p => p.Category == category).ToList();
             }
 
             ProductListViewModel model = new ProductListViewModel();

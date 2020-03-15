@@ -106,6 +106,10 @@
       <Project>{967AE758-B602-4A06-8441-C8194A760640}</Project>
       <Name>MyShop.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MyShop.Services\MyShop.Services.csproj">
+      <Project>{72E0B413-5A50-4D89-BD12-716B3CE0D4A8}</Project>
+      <Name>MyShop.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\MyShop.WebUI\MyShop.WebUI.csproj">
       <Project>{22B3D87A-B224-48A4-BE8D-331E3EF03B13}</Project>
       <Name>MyShop.WebUI</Name>

@@ -1,4 +1,5 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
 using MyShop.Core.Contracts;
 using MyShop.Core.Models;
 
@@ -8,11 +9,13 @@ namespace MyShop.WebUI.Controllers
     {
         private IBasketService basketService;
         private IOrderService orderService;
+        private IRepository<Customer> customerRepository;
 
-        public BasketController(IBasketService basketService, IOrderService orderService)
+        public BasketController(IBasketService basketService, IOrderService orderService, IRepository<Customer> customerRepository)
         {
             this.basketService = basketService;
             this.orderService = orderService;
+            this.customerRepository = customerRepository;
         }
 
         // GET: Basket
@@ -43,16 +46,37 @@ namespace MyShop.WebUI.Controllers
             return PartialView(basketSummary);
         }
 
+        [Authorize]
         public ActionResult Checkout()
         {
-            return View();
+            Customer customer = customerRepository.Collection().FirstOrDefault
+                (c => c.Email == User.Identity.Name);
+
+            if (customer != null)
+            {
+                Order order = new Order()
+                {
+                    FirstName = customer.FirstName,
+                    Surname = customer.LastName,
+                    Email = customer.Email,
+                    City = customer.City,
+                    State = customer.State,
+                    Street = customer.Street,
+                    ZipCode = customer.ZipCode
+                };
+                return View(order);
+            }
+
+            return RedirectToAction("Error");
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Checkout(Order order)
         {
             var basketItems = basketService.GetBasketItems(this.HttpContext);
             order.OrderStatus = "Order Created";
+            order.Email = User.Identity.Name;
 
             // Process the payment
 

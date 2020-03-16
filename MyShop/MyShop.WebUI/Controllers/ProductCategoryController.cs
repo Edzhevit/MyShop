@@ -6,6 +6,7 @@ using MyShop.Core.Models;
 
 namespace MyShop.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class ProductCategoryController : Controller
     {
         private IRepository<ProductCategory> repository;

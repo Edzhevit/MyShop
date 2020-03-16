@@ -60,6 +60,10 @@
     <Compile Include="Migrations\202003151013549_AddBasket.designer.cs">
       <DependentUpon>202003151013549_AddBasket.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202003161207575_AddCustomer.cs" />
+    <Compile Include="Migrations\202003161207575_AddCustomer.designer.cs">
+      <DependentUpon>202003161207575_AddCustomer.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\SqlRepository.cs" />
@@ -80,6 +84,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202003151013549_AddBasket.resx">
       <DependentUpon>202003151013549_AddBasket.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202003161207575_AddCustomer.resx">
+      <DependentUpon>202003161207575_AddCustomer.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
